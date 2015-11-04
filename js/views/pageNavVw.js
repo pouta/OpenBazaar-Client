@@ -88,15 +88,6 @@ module.exports = Backbone.View.extend({
         });
       }
     });
-    //set up filterable lists.
-    //TODO: this is terrible, change to run when an event is emmitted from the subviews marking them as done rendering
-    setTimeout(function(){
-      var List = window.List;
-      var countryList = new List('homeModal-countryList', {valueNames: ['homeModal-country']});
-      var currencyList = new List('homeModal-currencyList', {valueNames: ['homeModal-currency']});
-      var timeList = new List('homeModal-timeList', {valueNames: ['homeModal-time']});
-      var languageList = new List('homeModal-languageList', {valueNames: ['homeModal-language']});
-    }, 1000);
   },
 
   closeNav: function(){
@@ -117,10 +108,13 @@ module.exports = Backbone.View.extend({
       self.subViews.push(self.countryList);
       self.subViews.push(self.currencyList);
       self.subViews.push(self.languageList);
+      //set up filterable lists.
+      self.setListListeners();
       self.initAccordion('.js-profileAccordion');
       if(self.model.get('beenSet')){
         self.$el.find('.js-homeModal').hide();
       }
+
       //add the admin panel
       self.adminPanel = new adminPanelView({model: self.model});
       self.subViews.push(self.adminPanel);
@@ -331,6 +325,26 @@ module.exports = Backbone.View.extend({
     "use strict";
     this.$el.find('.js-adminModal').removeClass('fadeOut');
     this.adminPanel.updatePage();
+  },
+
+  setListListeners: function() {
+    "use strict";
+    var self = this;
+    var List = window.List;
+    var timeList = new List('homeModal-timeList', {valueNames: ['homeModal-time']});
+
+    self.listenToOnce(window.obEventBus, "chooseLanguageVwComplete", function() {
+      var languageList = new List('homeModal-languageList', {valueNames: ['homeModal-language']});
+      console.log("TESTELanguage");
+    });
+    self.listenToOnce(window.obEventBus, "chooseCountryVwComplete", function() {
+      var countryList = new List('homeModal-countryList', {valueNames: ['homeModal-country']});
+      console.log("TESTECountry");
+    });
+    self.listenToOnce(window.obEventBus, "chooseCurrencyVwComplete", function() {
+      var currencyList = new List('homeModal-currencyList', {valueNames: ['homeModal-currency']});
+      console.log("TESTECurrency");
+    });
   },
 
   close: function(){
