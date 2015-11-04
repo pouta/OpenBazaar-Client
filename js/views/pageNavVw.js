@@ -333,15 +333,15 @@ module.exports = Backbone.View.extend({
     var List = window.List;
     var timeList = new List('homeModal-timeList', {valueNames: ['homeModal-time']});
 
-    self.listenToOnce(window.obEventBus, "chooseLanguageVwComplete", function() {
+    self.listenToOnce(window.obEventBus, "languageListVwComplete", function() {
       var languageList = new List('homeModal-languageList', {valueNames: ['homeModal-language']});
       console.log("TESTELanguage");
     });
-    self.listenToOnce(window.obEventBus, "chooseCountryVwComplete", function() {
+    self.listenToOnce(window.obEventBus, "countryListVwComplete", function() {
       var countryList = new List('homeModal-countryList', {valueNames: ['homeModal-country']});
       console.log("TESTECountry");
     });
-    self.listenToOnce(window.obEventBus, "chooseCurrencyVwComplete", function() {
+    self.listenToOnce(window.obEventBus, "currencyListVwComplete", function() {
       var currencyList = new List('homeModal-currencyList', {valueNames: ['homeModal-currency']});
       console.log("TESTECurrency");
     });

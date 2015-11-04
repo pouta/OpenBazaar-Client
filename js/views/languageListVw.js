@@ -20,7 +20,8 @@ module.exports = Backbone.View.extend({
     var self = this;
     __.each(this.chooseLanguages.models, function(item){
       self.renderItem(item);
-    },this);
+    },this);  
+    window.obEventBus.trigger("languageListVwComplete");
   },
 
   renderItem: function(item){

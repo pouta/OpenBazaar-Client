@@ -35,6 +35,8 @@ module.exports = Backbone.View.extend({
     __.each(this.chooseCurrencies.models, function(item){
       self.renderItem(item);
     },this);
+
+    window.obEventBus.trigger("currencyListVwComplete");
   },
 
   renderItem: function(item){

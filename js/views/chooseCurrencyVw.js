@@ -19,7 +19,6 @@ module.exports = Backbone.View.extend({
     loadTemplate('./js/templates/chooseCurrency.html', function(loadedTemplate) {
       self.$el.html(loadedTemplate(self.model.toJSON()));
     });
-    window.obEventBus.trigger("chooseCurrencyVwComplete");
     return this;
   },
 

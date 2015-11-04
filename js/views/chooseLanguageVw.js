@@ -19,7 +19,6 @@ module.exports = Backbone.View.extend({
     loadTemplate('./js/templates/chooseLanguage.html', function(loadedTemplate) {
       self.$el.html(loadedTemplate(self.model.toJSON()));
     });
-    window.obEventBus.trigger("chooseLanguageVwComplete");
     return this;
   },
 

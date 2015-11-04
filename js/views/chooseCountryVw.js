@@ -20,7 +20,6 @@ module.exports = Backbone.View.extend({
     loadTemplate('./js/templates/chooseCountry.html', function(loadedTemplate) {
       self.$el.html(loadedTemplate(self.model.toJSON()));
     });
-    window.obEventBus.trigger("chooseCountryVwComplete");
     return this;
   },
 
