@@ -32,10 +32,11 @@ module.exports = Backbone.View.extend({
 
   render: function(){
     var self = this;
+    this.listWrapper = $('<div class="flexRow scrollOverflowY"></div>');
     __.each(this.chooseCurrencies.models, function(item){
       self.renderItem(item);
     },this);
-
+    this.$el.append(this.listWrapper);
     window.obEventBus.trigger("currencyListVwComplete");
   },
 
@@ -46,7 +47,7 @@ module.exports = Backbone.View.extend({
     });
     this.subViews.push(chooseCurrency);
     //$el must be passed in by the constructor
-    this.$el.append(chooseCurrency.render().el);
+    this.listWrapper.append(chooseCurrency.render().el);
   },
 
   close: function(){
