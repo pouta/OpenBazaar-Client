@@ -3,6 +3,7 @@ var __ = require('underscore'),
     $ = require('jquery'),
     loadTemplate = require('../utils/loadTemplate'),
     Polyglot = require('node-polyglot'),
+    initAccordion = require('../utils/accordion.js'),
     languagesModel = require('../models/languagesMd'),
     countryListView = require('../views/countryListVw'),
     currencyListView = require('../views/currencyListVw'),
@@ -59,37 +60,6 @@ module.exports = Backbone.View.extend({
     this.render();
   },
 
-  initAccordion: function(targ){
-    "use strict";
-    var acc = $(targ);
-    var accWidth = acc.width();
-    var accHeight = acc.height();
-    var accChildren = acc.find('.accordion-child');
-    var accNum = accChildren.length;
-    var accWin = acc.find('.accordion-window');
-
-    accWin.css({'left':0, 'width': function(){return accWidth * accNum;}});
-    accChildren.css({'width':accWidth, 'height':accHeight});
-    acc.find('.js-accordionNext').on('click', function(){
-      var oldPos = accWin.css('left').replace("px","");
-      if(oldPos > (accWidth * accNum * -1 + accWidth)){
-        accWin.css('left', function(){
-          return parseInt(accWin.css('left').replace("px","")) - accWidth;
-        });
-      }
-      // focus search input
-      $(this).closest('.accordion-child').next('.accordion-child').find('.search').focus();
-    });
-    acc.find('.js-accordionPrev').on('click', function(){
-      var oldPos = accWin.css('left').replace("px","");
-      if(oldPos < (0)){
-        accWin.css('left', function(){
-          return parseInt(accWin.css('left').replace("px","")) + accWidth;
-        });
-      }
-    });
-  },
-
   closeNav: function(){
     "use strict";
     var targ = this.$el.find('.js-navProfileMenu');
@@ -110,7 +80,7 @@ module.exports = Backbone.View.extend({
       self.subViews.push(self.languageList);
       //set up filterable lists.
       self.setListListeners();
-      self.initAccordion('.js-profileAccordion');
+      initAccordion('.js-profileAccordion');
       if(self.model.get('beenSet')){
         self.$el.find('.js-homeModal').hide();
       }
@@ -335,15 +305,12 @@ module.exports = Backbone.View.extend({
 
     self.listenToOnce(window.obEventBus, "languageListVwComplete", function() {
       var languageList = new List('homeModal-languageList', {valueNames: ['homeModal-language']});
-      console.log("TESTELanguage");
     });
     self.listenToOnce(window.obEventBus, "countryListVwComplete", function() {
       var countryList = new List('homeModal-countryList', {valueNames: ['homeModal-country']});
-      console.log("TESTECountry");
     });
     self.listenToOnce(window.obEventBus, "currencyListVwComplete", function() {
       var currencyList = new List('homeModal-currencyList', {valueNames: ['homeModal-currency']});
-      console.log("TESTECurrency");
     });
   },
 
