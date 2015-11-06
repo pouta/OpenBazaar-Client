@@ -21,6 +21,9 @@ module.exports = function(targ){
       // focus search input
       $(this).closest('.accordion-child').next('.accordion-child').find('.search').focus();
     });
+    //Move to specified index
+    var i = 0;
+
     acc.find('.js-accordionPrev').on('click', function(){
       var oldPos = accWin.css('left').replace("px","");
       if(oldPos < (0)){

@@ -1,5 +1,6 @@
 var __ = require('underscore'),
   Backbone = require('backbone'),
+  initAccordion = require('../utils/accordion.js'),
   $ = require('jquery');
 Backbone.$ = $;
 var loadTemplate = require('../utils/loadTemplate');
@@ -10,6 +11,7 @@ module.exports = Backbone.View.extend({
     'click .js-descriptionTab': 'descriptionClick',
     'click .js-reviewsTab': 'reviewsClick',
     'click .js-shippingTab': 'shippingClick',
+    'click .js-itemImg': 'imageClick',
     'click .js-buyButton': 'buyClick'
   },
 
@@ -29,6 +31,7 @@ module.exports = Backbone.View.extend({
     loadTemplate('./js/templates/item.html', function(loadedTemplate) {
         self.$el.html(loadedTemplate(self.model.toJSON()));
     });
+    console.log("hide");
     return this;
   },
 
@@ -49,6 +52,13 @@ module.exports = Backbone.View.extend({
     activeTab.addClass('active');
     this.$el.find('.js-tabTarg').addClass('hide');
     showContent.removeClass('hide');
+  },
+  imageClick: function(e){
+    e.preventDefault();
+    var image = $(e.currentTarget);
+    var index = image.attr("data-imageindex");
+    initAccordion('.js-profileAccordion');
+    console.log(index);
   },
 
   buyClick: function(){

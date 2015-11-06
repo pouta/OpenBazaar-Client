@@ -5,13 +5,13 @@
 </div>
 <div class="flexRow border0">
   <div class="flexCol-5 pad20">
-    <div class="itemImg itemImg-large row10 rowTop20"
+    <div data-imageIndex="0" class="itemImg itemImg-large js-itemImg row10 rowTop20"
     style="background-image: url(<%- ob.server_url %>get_image?hash=<%- ob.vendor_offer.listing.item.image_hashes[0] %><%- ob.imageExtension %>), url(imgs/defaultItem.png);">
     </div>
   <div class="flexRow row20">
     <% _.each(ob.vendor_offer.listing.item.image_hashes, function(data, i) {
     if(i != 0){%>
-    <div class="itemImg itemImg-small" style="background-image: url(<%- ob.server_url %>get_image?hash=<%- data %><%- ob.imageExtension %>), url(imgs/defaultItem.png);"></div>
+    <div data-imageIndex="<%- i %>" class="itemImg itemImg-small js-itemImg" style="background-image: url(<%- ob.server_url %>get_image?hash=<%- data %><%- ob.imageExtension %>), url(imgs/defaultItem.png);"></div>
     <% } }); %>
   </div>
 </div>
@@ -73,4 +73,39 @@
     </div>
   </div>
 </div>
+</div>
+
+
+
+<div class="modal modal-opaque js-homeModal hide">
+  <div class="modal-child modal-childMain custCol-primary">
+    <div class="homeModal-accordion accordion js-profileAccordion">
+      <div class="accordion-window">
+
+        <div class="accordion-child custCol-primary">
+          <div class="flexContainer flex-border">
+            <div 
+            style="background-image: url(<%- ob.server_url %>get_image?hash=<%- ob.vendor_offer.listing.item.image_hashes[0] %><%- ob.imageExtension %>), url(imgs/defaultItem.png);">
+            </div>
+          </div>
+          <div class="bar barFlush">
+            <a class="btn btn-bar btn-wide js-accordionNext custCol-secondary borderBottomLeftRaidus3 borderBottomRightRaidus3"><%= polyglot.t('Next') %></a>
+          </div>
+        </div>
+        
+        <% _.each(ob.vendor_offer.listing.item.image_hashes, function(data, i) {
+        if(i != 0){%>
+          <div class="accordion-child custCol-primary">
+            <div class="flexContainer flex-border">
+              <div style="background-image: url(<%- ob.server_url %>get_image?hash=<%- data %><%- ob.imageExtension %>), url(imgs/defaultItem.png);"></div>
+            </div>
+            <div class="bar barFlush">
+              <a class="btn btn-bar btn-half js-accordionPrev custCol-secondary custCol-border-primary borderBottomLeftRaidus3"><%= polyglot.t('Back') %></a>
+              <a class="btn btn-bar btn-wide js-accordionNext custCol-secondary borderBottomLeftRaidus3 borderBottomRightRaidus3"><%= polyglot.t('Next') %></a>
+            </div>
+          </div>
+        <% } }); %>
+      </div>
+    </div>
+  </div>
 </div>

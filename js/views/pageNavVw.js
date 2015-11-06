@@ -40,9 +40,10 @@ module.exports = Backbone.View.extend({
     'click .js-closeStatus': 'closeStatusBar'
   },
 
-  initialize: function(){
+  initialize: function(options){
     "use strict";
     var self = this;
+    this.socketView = options.socketView;
     this.subViews = [];
     this.languages = new languagesModel();
     this.currentWindow = remote.getCurrentWindow();
@@ -57,9 +58,66 @@ module.exports = Backbone.View.extend({
       Backbone.history.loadUrl();
     });
 
+    this.listenTo(window.obEventBus, "socketMessageRecived", function(response){
+      this.handleSocketMessage(response);
+    });
+    this.socketNotificationID = Math.random().toString(36).slice(2);
+    this.socketView.getNotifications(this.socketNotificationID);
+
     this.render();
   },
 
+<<<<<<< HEAD
+=======
+  handleSocketMessage: function(response) {
+    "use strict";
+    var data = JSON.parse(response.data);
+    if(data.id == this.socketNotificationID){
+      console.log(data);
+    }
+  },
+
+  initAccordion: function(targ){
+    "use strict";
+    var acc = $(targ);
+    var accWidth = acc.width();
+    var accHeight = acc.height();
+    var accChildren = acc.find('.accordion-child');
+    var accNum = accChildren.length;
+    var accWin = acc.find('.accordion-window');
+
+    accWin.css({'left':0, 'width': function(){return accWidth * accNum;}});
+    accChildren.css({'width':accWidth, 'height':accHeight});
+    acc.find('.js-accordionNext').on('click', function(){
+      var oldPos = accWin.css('left').replace("px","");
+      if(oldPos > (accWidth * accNum * -1 + accWidth)){
+        accWin.css('left', function(){
+          return parseInt(accWin.css('left').replace("px","")) - accWidth;
+        });
+      }
+      // focus search input
+      $(this).closest('.accordion-child').next('.accordion-child').find('.search').focus();
+    });
+    acc.find('.js-accordionPrev').on('click', function(){
+      var oldPos = accWin.css('left').replace("px","");
+      if(oldPos < (0)){
+        accWin.css('left', function(){
+          return parseInt(accWin.css('left').replace("px","")) + accWidth;
+        });
+      }
+    });
+    //set up filterable lists.
+    //TODO: this is terrible, change to run when an event is emmitted from the subviews marking them as done rendering
+    setTimeout(function(){
+      var List = window.List;
+      var countryList = new List('homeModal-countryList', {valueNames: ['homeModal-country']});
+      var currencyList = new List('homeModal-currencyList', {valueNames: ['homeModal-currency']});
+      var timeList = new List('homeModal-timeList', {valueNames: ['homeModal-time']});
+      var languageList = new List('homeModal-languageList', {valueNames: ['homeModal-language']});
+    }, 1000);
+  },
+
+>>>>>>> upstream/master
   closeNav: function(){
     "use strict";
     var targ = this.$el.find('.js-navProfileMenu');
