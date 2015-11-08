@@ -58,6 +58,7 @@ module.exports = Backbone.View.extend({
     var image = $(e.currentTarget);
     var index = image.attr("data-imageindex");
     initAccordion('.js-profileAccordion');
+    $('.js-imageModal').removeClass("hide");
     console.log(index);
   },
 
